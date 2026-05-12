@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sheen Alexes J. Laure — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #d6d0c8;
+    --card: rgba(255,255,255,0.35);
+    --card-border: rgba(255,255,255,0.6);
+    --text: #1a1a18;
+    --text-muted: #5a5650;
+    --white: #ffffff;
+    --radius: 20px;
+    --radius-sm: 12px;
+    --nav-h: 64px;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAV  */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    padding: 0 2.5rem;
+    background: rgba(214,208,200,0.88);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex: 1;
+  }
+
+  nav a {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-muted);
+    padding: 0.45rem 1rem;
+    border-radius: 50px;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+  }
+
+  nav a:hover, nav a.active {
+    background: var(--white);
+    color: var(--text);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  }
+
+  /* Hamburger — hidden on desktop */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 26px;
+    height: 18px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-left: auto;
+    z-index: 300;
+  }
+
+  .hamburger span {
+    display: block;
+    height: 2.5px;
+    border-radius: 2px;
+    background: var(--text);
+    transition: transform 0.3s, opacity 0.3s;
+    transform-origin: center;
+  }
+
+  .hamburger.open span:nth-child(1) { transform: translateY(7.75px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7.75px) rotate(-45deg); }
+
+  /* Mobile full-screen drawer */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    background: rgba(214,208,200,0.97);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.6rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s;
+  }
+
+  .mobile-menu.open { opacity: 1; pointer-events: all; }
+
+  .mobile-menu a {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.4rem;
+    text-decoration: none;
+    color: var(--text);
+    letter-spacing: 0.02em;
+    transition: opacity 0.2s;
+  }
+
+  .mobile-menu a:hover { opacity: 0.45; }
+
+  /*  SECTIONS  */
+  section {
+    min-height: 100svh;
+    padding: calc(var(--nav-h) + 3rem) 4rem 4rem;
+    display: flex;
+    align-items: center;
+  }
+
+  /*  HOME  */
+  #home {
+    justify-content: space-between;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .home-text h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(4rem, 10vw, 11rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .home-text .subtitle {
+    font-size: clamp(0.9rem, 2vw, 1.15rem);
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-top: 1.2rem;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+
+  .home-text .tag-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1.8rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .tag {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    padding: 0.35rem 0.85rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    backdrop-filter: blur(8px);
+  }
+
+  .home-photo { flex-shrink: 0; animation: fadeUp 0.9s 0.2s ease both; }
+
+  .photo-placeholder {
+    width: clamp(220px, 28vw, 380px);
+    height: clamp(220px, 28vw, 380px);
+    border-radius: 50%;
+    border: 6px solid rgba(255,255,255,0.85);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    overflow: hidden;
+    background: #c8c2b8;
+  }
+
+  .photo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
+
+  /*  ABOUT  */
+  #about { flex-direction: column; justify-content: center; gap: 2rem; }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  .glass-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+  }
+
+  .exp-card h3 {
+    font-size: 0.68rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--text-muted); margin-bottom: 0.7rem;
+  }
+
+  .exp-card .role { font-family:'DM Serif Display',serif; font-size:1.15rem; line-height:1.3; margin-bottom:0.3rem; }
+  .exp-card .period { font-size:0.78rem; color:var(--text-muted); margin-bottom:1.1rem; }
+  .exp-card ul { list-style:none; display:flex; flex-direction:column; gap:0.5rem; }
+  .exp-card ul li { font-size:0.82rem; color:var(--text-muted); padding-left:1rem; position:relative; line-height:1.4; }
+  .exp-card ul li::before { content:'•'; position:absolute; left:0; font-weight:700; color:var(--text); }
+
+  .certs-card { display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; align-items:start; }
+
+  .cert-badge {
+    background:rgba(255,255,255,0.55);
+    border:1px solid var(--card-border);
+    border-radius:var(--radius-sm);
+    padding:0.9rem;
+    display:flex; align-items:center; justify-content:center;
+    aspect-ratio:1;
+  }
+
+  .cert-icon { font-size:1.8rem; text-align:center; }
+  .bio-card { display:flex; align-items:center; }
+
+  .bio-text {
+    font-family:'DM Serif Display',serif;
+    font-size:clamp(1rem,1.6vw,1.4rem);
+    line-height:1.55;
+  }
+
+  /* SKILLS */
+  #skills { flex-direction:column; justify-content:center; }
+
+  .skills-layout {
+    display:grid;
+    grid-template-columns:260px 1fr;
+    gap:1.5rem;
+    width:100%;
+  }
+
+  .section-title { font-family:'DM Serif Display',serif; font-size:2.2rem; font-weight:400; letter-spacing:0; margin-bottom:1.4rem; }
+
+  .tools-list { display:flex; flex-direction:column; gap:0.55rem; }
+
+  .tool-item {
+    background:var(--card); border:1px solid var(--card-border);
+    backdrop-filter:blur(8px); border-radius:var(--radius-sm);
+    padding:0.65rem 1rem; display:flex; align-items:center;
+    gap:0.7rem; font-weight:600; font-size:0.95rem;
+    transition:transform 0.2s, box-shadow 0.2s; min-height:48px;
+  }
+
+  .tool-item:hover { transform:translateX(4px); box-shadow:0 4px 16px rgba(0,0,0,.1); }
+  .tool-icon { width:26px; height:26px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; }
+
+  /* Tool badge grid  */
+  .tools-badge-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .tool-badge {
+    background: rgba(255,255,255,0.55);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.85rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    min-height: 50px;
+  }
+
+  .tool-badge:hover { transform: translateX(4px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+
+  .tool-badge-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .tool-badge-icon img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+  }
+
+  .tool-badge-label {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.01em;
+  }
+
+  .skills-list { display:flex; flex-direction:column; gap:0.6rem; }
+
+  .skill-item {
+    background:var(--card); border:1px solid var(--card-border);
+    backdrop-filter:blur(8px); border-radius:var(--radius-sm);
+    padding:0.85rem 1.4rem; display:flex; align-items:center;
+    justify-content: flex-start;
+    gap:0.9rem; font-weight:600; font-size:0.92rem;
+    transition:transform 0.2s, box-shadow 0.2s; min-height:50px;
+  }
+
+  .skill-item:hover { transform:translateX(6px); box-shadow:0 4px 16px rgba(0,0,0,.1); }
+  .gear-svg { width:22px; height:22px; flex-shrink:0; opacity:0.4; }
+
+  /* PROJECTS */
+  #projects { flex-direction:column; justify-content:center; }
+
+  .projects-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; width:100%; }
+
+  .project-card {
+    background:var(--card); border:1px solid var(--card-border);
+    backdrop-filter:blur(12px); border-radius:var(--radius);
+    overflow: hidden;
+    transition:transform 0.25s, box-shadow 0.25s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-card:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,.12); }
+
+  .project-title-above {
+    font-family:'DM Sans', sans-serif;
+    font-size: clamp(1.6rem, 3.5vw, 3rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    padding: 1.4rem 1.5rem 1rem;
+  }
+
+  .project-preview {
+    position: relative;
+    height: 240px;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    margin: 0 1rem;
+  }
+
+  .project-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .project-body { padding: 1rem 1.5rem 1.5rem; }
+
+  .project-title { font-family:'DM Serif Display',serif; font-size:1.4rem; margin-bottom:0.45rem; }
+  .project-desc { font-size:0.82rem; color:var(--text-muted); line-height:1.6; }
+
+  /* CONTACT  */
+  #contact { flex-direction:column; justify-content:center; align-items:center; }
+
+  .contact-box {
+    background: transparent;
+    padding: 2rem 0;
+    width: 100%;
+    max-width: 680px;
+  }
+
+  .contact-box h2 {
+    font-family:'DM Sans',sans-serif;
+    font-size: 2.6rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .contact-links { display:flex; flex-direction:column; gap:1rem; }
+
+  .contact-link {
+    background:rgba(255,255,255,0.55); border:1px solid var(--card-border);
+    border-radius:var(--radius); padding:1rem 1.5rem;
+    display:flex; align-items:center; gap:1.2rem;
+    text-decoration:none; color:var(--text);
+    font-weight:700; font-size:1.25rem; min-height:74px;
+    transition:transform 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+
+  .contact-link:hover { transform:translateX(5px); background:rgba(255,255,255,.8); box-shadow:0 4px 20px rgba(0,0,0,.1); }
+
+  .contact-icon { width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .contact-icon svg { width:28px; height:28px; }
+  .fb-icon { background:#1877F2; }
+  .ig-icon { background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+  .ph-icon { background:#25D366; }
+
+  /* ══ REVEAL ══ */
+  .reveal { opacity:0; transform:translateY(22px); transition:opacity 0.6s ease,transform 0.6s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(18px); }
+    to   { opacity:1; transform:none; }
+  }
+
+  /* TABLET  ≤ 900px */
+  @media (max-width:900px) {
+    section { padding: calc(var(--nav-h) + 2.5rem) 2rem 3rem; }
+    #home { flex-direction:column-reverse; text-align:center; padding-top:calc(var(--nav-h) + 2rem); }
+    .home-text .tag-row { justify-content:center; }
+    .about-grid { grid-template-columns:1fr; }
+    .skills-layout { grid-template-columns:1fr; }
+    .projects-grid { grid-template-columns:1fr; }
+    .photo-placeholder { width:200px; height:200px; font-size:3.5rem; }
+  }
+
+  /* MOBILE  ≤ 600px */
+  @media (max-width:600px) {
+    :root { --nav-h:58px; }
+
+    /* swap desktop links ↔ hamburger */
+    .nav-links { display:none; }
+    .hamburger { display:flex; }
+    .mobile-menu { display:flex; }
+
+    nav { padding:0 1.25rem; }
+
+    section { padding:calc(var(--nav-h) + 2rem) 1.25rem 2.5rem; }
+
+    /* Home */
+    #home { gap:1.8rem; justify-content:center; }
+    .home-text h1 { font-size:clamp(3.4rem,18vw,5.5rem); }
+    .home-text .subtitle { font-size:0.92rem; }
+    .photo-placeholder { width:155px; height:155px; font-size:2.8rem; }
+    .tag { font-size:0.68rem; padding:0.28rem 0.65rem; }
+
+    /* About */
+    .about-grid { gap:1rem; }
+    .glass-card { padding:1.3rem; }
+    .bio-text { font-size:0.97rem; }
+    .certs-card { grid-template-columns:repeat(3,1fr); gap:0.5rem; }
+    .cert-badge { padding:0.65rem; }
+    .cert-icon { font-size:1.5rem; }
+    .cert-badge.cert-label { grid-column:span 3; aspect-ratio:unset; padding:0.55rem 0.7rem; }
+
+    /* Skills */
+    .section-title { font-size:1.75rem; margin-bottom:0.9rem; }
+    .tool-item { font-size:0.86rem; padding:0.6rem 0.85rem; min-height:46px; }
+    .skill-item { font-size:0.83rem; padding:0.75rem 1rem; min-height:48px; }
+
+    /* Projects */
+    .project-preview { height:148px; }
+    .project-title { font-size:1.2rem; }
+    .project-desc { font-size:0.79rem; }
+
+    /* Contact */
+    .contact-box { padding:1.75rem 1.1rem; }
+    .contact-box h2 { font-size:1.65rem; margin-bottom:1.3rem; }
+    .contact-link { font-size:0.93rem; min-height:54px; }
+  }
+
+  /* Very small ≤ 380px */
+  @media (max-width:380px) {
+    .home-text h1 { font-size:3.1rem; }
+    .photo-placeholder { width:135px; height:135px; font-size:2.5rem; }
+    .certs-card { grid-template-columns:1fr 1fr; }
+    .cert-badge.cert-label { grid-column:span 2; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-links">
+    <a href="#home" class="active">HOME</a>
+    <a href="#about">ABOUT</a>
+    <a href="#skills">SKILLS</a>
+    <a href="#projects">PROJECTS</a>
+    <a href="#contact">CONTACT</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home"     onclick="closeMenu()">Home</a>
+  <a href="#about"    onclick="closeMenu()">About</a>
+  <a href="#skills"   onclick="closeMenu()">Skills</a>
+  <a href="#projects" onclick="closeMenu()">Projects</a>
+  <a href="#contact"  onclick="closeMenu()">Contact</a>
+</div>
+
+<!-- HOME -->
+<section id="home">
+  <div class="home-text">
+    <h1>HELLO</h1>
+    <p class="subtitle">— It's Sheen Alexes J. Laure</p>
+    <div class="tag-row">
+      <span class="tag">IT Professional</span>
+      <span class="tag">Graphic Designer</span>
+      <span class="tag">Freelancer</span>
+      <span class="tag">CCNA Certified</span>
+    </div>
+  </div>
+  <div class="home-photo">
+    <div class="photo-placeholder">
+      <img src="profile.png" alt="Sheen Alexes J. Laure">
+    </div>
+  </div>
+</section>
+
+<!--ABOUT -->
+<section id="about">
+  <div class="about-grid">
+
+    <div class="glass-card exp-card reveal">
+      <h3>Experience</h3>
+      <div class="role">IT Support / Freelance Designer</div>
+      <div class="period">2023 – Present</div>
+      <ul>
+        <li>Provided technical support and troubleshooting</li>
+        <li>Designed digital content for clients</li>
+        <li>Managed small-scale IT and design projects</li>
+      </ul>
+    </div>
+
+    <div class="glass-card certs-card reveal" style="transition-delay:.1s">
+      <div class="cert-badge"><img src="ccna.png" alt="CCNA" style="width:70%;height:70%;object-fit:contain;"></div>
+      <div class="cert-badge"><img src="ccst.png" alt="CCST" style="width:70%;height:70%;object-fit:contain;"></div>
+      <div class="cert-badge" style="grid-column:span 2;aspect-ratio:unset;padding:.75rem;"><img src="aws.png" alt="AWS" style="height:70px;object-fit:contain;"></div>
+      <div class="cert-badge"><img src="google-it.png" alt="Google IT" style="width:75%;height:75%;object-fit:contain;"></div>
+      <div class="cert-badge"><img src="ux.png" alt="UX Design" style="width:75%;height:75%;object-fit:contain;"></div>
+    </div>
+
+    <div class="glass-card bio-card reveal" style="transition-delay:.2s">
+      <p class="bio-text">Results-driven IT professional with a creative edge in graphic design. I combine technical expertise with visual communication skills to develop digital solutions that are both functional and visually engaging.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="skills-layout">
+
+    <div class="glass-card reveal">
+      <div class="section-title">Tools:</div>
+      <div class="tools-badge-grid">
+
+        <!-- CSS -->
+        <div class="tool-badge">
+          <div class="tool-badge-icon">
+            <img src="css-icon.png" alt="CSS">
+          </div>
+          <span class="tool-badge-label">CSS</span>
+        </div>
+
+        <!-- Figma -->
+        <div class="tool-badge">
+          <div class="tool-badge-icon">
+            <img src="figma-icon.png" alt="Figma">
+          </div>
+          <span class="tool-badge-label">Figma</span>
+        </div>
+
+        <!-- Java -->
+        <div class="tool-badge">
+          <div class="tool-badge-icon">
+            <img src="java-icon.png" alt="Java">
+          </div>
+          <span class="tool-badge-label">Java</span>
+        </div>
+
+        <!-- Photoshop -->
+        <div class="tool-badge">
+          <div class="tool-badge-icon">
+            <img src="ps-icon.png" alt="Photoshop">
+          </div>
+          <span class="tool-badge-label">Photoshop</span>
+        </div>
+
+        <!-- GitHub -->
+        <div class="tool-badge">
+          <div class="tool-badge-icon">
+            <img src="git-icon.png" alt="Github">
+          </div>
+          <span class="tool-badge-label">Github</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="glass-card reveal" style="transition-delay:.12s">
+      <div class="section-title">Skills:</div>
+      <div class="skills-list">
+        <div class="skill-item">
+          <svg class="gear-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.5A3.5 3.5 0 018.5 12 3.5 3.5 0 0112 8.5a3.5 3.5 0 013.5 3.5 3.5 3.5 0 01-3.5 3.5m7.43-2.92c.04-.36.07-.73.07-1.08s-.03-.71-.07-1.08l2.32-1.82c.21-.16.27-.45.14-.69l-2.2-3.81c-.13-.24-.42-.32-.66-.24l-2.74 1.1c-.57-.43-1.19-.8-1.87-1.07L14.12 2H9.88L9.54 4.63c-.68.27-1.3.64-1.87 1.07L4.93 4.6c-.24-.08-.53 0-.66.24L2.07 8.65c-.13.24-.07.53.14.69l2.32 1.82c-.04.37-.07.74-.07 1.09s.03.71.07 1.09L2.21 15.16c-.21.16-.27.45-.14.69l2.2 3.81c.13.24.42.32.66.24l2.74-1.1c.57.43 1.19.8 1.87 1.07l.34 2.62h4.24l.34-2.62c.68-.27 1.3-.64 1.87-1.07l2.74 1.1c.24.08.53 0 .66-.24l2.2-3.81c.13-.24.07-.53-.14-.69l-2.32-1.82z"/></svg>
+          Branding &amp; Identity Design
+        </div>
+        <div class="skill-item">
+          <svg class="gear-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.5A3.5 3.5 0 018.5 12 3.5 3.5 0 0112 8.5a3.5 3.5 0 013.5 3.5 3.5 3.5 0 01-3.5 3.5m7.43-2.92c.04-.36.07-.73.07-1.08s-.03-.71-.07-1.08l2.32-1.82c.21-.16.27-.45.14-.69l-2.2-3.81c-.13-.24-.42-.32-.66-.24l-2.74 1.1c-.57-.43-1.19-.8-1.87-1.07L14.12 2H9.88L9.54 4.63c-.68.27-1.3.64-1.87 1.07L4.93 4.6c-.24-.08-.53 0-.66.24L2.07 8.65c-.13.24-.07.53.14.69l2.32 1.82c-.04.37-.07.74-.07 1.09s.03.71.07 1.09L2.21 15.16c-.21.16-.27.45-.14.69l2.2 3.81c.13.24.42.32.66.24l2.74-1.1c.57.43 1.19.8 1.87 1.07l.34 2.62h4.24l.34-2.62c.68-.27 1.3-.64 1.87-1.07l2.74 1.1c.24.08.53 0 .66-.24l2.2-3.81c.13-.24.07-.53-.14-.69l-2.32-1.82z"/></svg>
+          Social Media Graphics
+        </div>
+        <div class="skill-item">
+          <svg class="gear-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.5A3.5 3.5 0 018.5 12 3.5 3.5 0 0112 8.5a3.5 3.5 0 013.5 3.5 3.5 3.5 0 01-3.5 3.5m7.43-2.92c.04-.36.07-.73.07-1.08s-.03-.71-.07-1.08l2.32-1.82c.21-.16.27-.45.14-.69l-2.2-3.81c-.13-.24-.42-.32-.66-.24l-2.74 1.1c-.57-.43-1.19-.8-1.87-1.07L14.12 2H9.88L9.54 4.63c-.68.27-1.3.64-1.87 1.07L4.93 4.6c-.24-.08-.53 0-.66.24L2.07 8.65c-.13.24-.07.53.14.69l2.32 1.82c-.04.37-.07.74-.07 1.09s.03.71.07 1.09L2.21 15.16c-.21.16-.27.45-.14.69l2.2 3.81c.13.24.42.32.66.24l2.74-1.1c.57.43 1.19.8 1.87 1.07l.34 2.62h4.24l.34-2.62c.68-.27 1.3-.64 1.87-1.07l2.74 1.1c.24.08.53 0 .66-.24l2.2-3.81c.13-.24.07-.53-.14-.69l-2.32-1.82z"/></svg>
+          Typography
+        </div>
+        <div class="skill-item">
+          <svg class="gear-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.5A3.5 3.5 0 018.5 12 3.5 3.5 0 0112 8.5a3.5 3.5 0 013.5 3.5 3.5 3.5 0 01-3.5 3.5m7.43-2.92c.04-.36.07-.73.07-1.08s-.03-.71-.07-1.08l2.32-1.82c.21-.16.27-.45.14-.69l-2.2-3.81c-.13-.24-.42-.32-.66-.24l-2.74 1.1c-.57-.43-1.19-.8-1.87-1.07L14.12 2H9.88L9.54 4.63c-.68.27-1.3.64-1.87 1.07L4.93 4.6c-.24-.08-.53 0-.66.24L2.07 8.65c-.13.24-.07.53.14.69l2.32 1.82c-.04.37-.07.74-.07 1.09s.03.71.07 1.09L2.21 15.16c-.21.16-.27.45-.14.69l2.2 3.81c.13.24.42.32.66.24l2.74-1.1c.57.43 1.19.8 1.87 1.07l.34 2.62h4.24l.34-2.62c.68-.27 1.3-.64 1.87-1.07l2.74 1.1c.24.08.53 0 .66-.24l2.2-3.81c.13-.24.07-.53-.14-.69l-2.32-1.82z"/></svg>
+          Adobe Photoshop, Illustrator
+        </div>
+        <div class="skill-item">
+          <svg class="gear-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.5A3.5 3.5 0 018.5 12 3.5 3.5 0 0112 8.5a3.5 3.5 0 013.5 3.5 3.5 3.5 0 01-3.5 3.5m7.43-2.92c.04-.36.07-.73.07-1.08s-.03-.71-.07-1.08l2.32-1.82c.21-.16.27-.45.14-.69l-2.2-3.81c-.13-.24-.42-.32-.66-.24l-2.74 1.1c-.57-.43-1.19-.8-1.87-1.07L14.12 2H9.88L9.54 4.63c-.68.27-1.3.64-1.87 1.07L4.93 4.6c-.24-.08-.53 0-.66.24L2.07 8.65c-.13.24-.07.53.14.69l2.32 1.82c-.04.37-.07.74-.07 1.09s.03.71.07 1.09L2.21 15.16c-.21.16-.27.45-.14.69l2.2 3.81c.13.24.42.32.66.24l2.74-1.1c.57.43 1.19.8 1.87 1.07l.34 2.62h4.24l.34-2.62c.68-.27 1.3-.64 1.87-1.07l2.74 1.1c.24.08.53 0 .66-.24l2.2-3.81c.13-.24.07-.53-.14-.69l-2.32-1.82z"/></svg>
+          Layout &amp; Composition
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div style="width:100%">
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-title-above">Interactive<br>network<br>toolkit</div>
+        <div class="project-preview">
+          <img src="pj2.jpg" alt="Interactive Network Toolkit screenshot">
+        </div>
+        <div class="project-body">
+          <p class="project-desc">A network monitoring dashboard featuring topology visualization, cloud service status, and interactive widgets for real-time infrastructure management.</p>
+        </div>
+      </div>
+
+      <div class="project-card reveal" style="transition-delay:.1s">
+        <div class="project-title-above">NexaFlow Cloud<br>Security<br>Branding</div>
+        <div class="project-preview">
+          <img src="pj1.jpg" alt="NexaFlow Cloud Security Branding screenshot">
+        </div>
+        <div class="project-body">
+          <p class="project-desc">Complete brand identity system for a cloud-native cybersecurity platform — logo design, color palette, typography, business cards, and UI components.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-box reveal">
+    <h2>CONTACT ME:</h2>
+    <div class="contact-links">
+      <a href="https://facebook.com" class="contact-link" target="_blank" rel="noopener">
+        <div class="contact-icon fb-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </div>
+        Laure Sheen Alexa
+      </a>
+      <a href="https://instagram.com/Shouzoy_zinin" class="contact-link" target="_blank" rel="noopener">
+        <div class="contact-icon ig-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </div>
+        Shouzoy_zinin
+      </a>
+      <a href="tel:09917430261" class="contact-link">
+        <div class="contact-icon ph-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.69 12a19.79 19.79 0 01-3.07-8.67A2 2 0 013.6 1.27h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 9a16 16 0 006.06 6.06l1.27-.85a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        09917430261
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  /* Hamburger toggle */
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  hamburger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+
+  function closeMenu() {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  mobileMenu.addEventListener('click', e => { if (e.target === mobileMenu) closeMenu(); });
+
+  /* Active nav link on scroll */
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+      }
+    });
+  }, { threshold: 0.4 }).observe ? sections.forEach(s => {
+    new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+        }
+      });
+    }, { threshold: 0.4 }).observe(s);
+  }) : null;
+
+  /* Scroll reveal */
+  const revObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(r => revObs.observe(r));
+</script>
+</body>
+</html>
